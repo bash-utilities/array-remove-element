@@ -54,7 +54,7 @@ Removes element from array plus/minus offset
     {Required} - If "--element" or "--regexp" is not defined, indexed value to remove from target array
 
 
--r    --regexp <RegExp> "${_regexp:-'^--[[:print:]].*'}"
+-r    --regexp <RegExp> "${_regexp:-^--[[:print:]].*}"
 
     {Required} - If "--element" or "--index" is not defined, regular expression to remove from target array
 
