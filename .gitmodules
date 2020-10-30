@@ -1,0 +1,4 @@
+[submodule "array-splice"]
+	path = modules/array-splice
+	url = git@github.com:bash-utilities/array-splice.git
+	branch = main
