@@ -193,11 +193,7 @@ EOF
             local _tail_slice_start="$((_index + _offset + 1))"
         elif [[ "${_offset}" -lt 0 ]]; then
             local _deleted_slice_start="$((_index + _offset))"
-            if [[ "${_index}" == 1 ]]; then
-                local _deleted_slice_end="$((_index + 1))"
-            else
-                local _deleted_slice_end="$((_index - 1 - _offset))"
-            fi
+            local _deleted_slice_end="$((_offset * -1 + 1))"
             local _head_slice_end="$((_index + _offset))"
             local _tail_slice_start="$((_index + 1))"
         else
