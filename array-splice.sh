@@ -83,7 +83,7 @@ Removes element from array plus/minus offset
     #> removed -> ( two )
 EOF
 
-        if (("${#_message}")); then
+        if (( ${#_message} )); then
             printf >&2 '\n\n## Error: %s\n' "${_message}"
         fi
     }
@@ -138,12 +138,12 @@ EOF
         return 0
     }
 
-    ! (("${#_element}")) && ! (("${#_index}")) && ! (("${#_regexp}")) && {
+    ! (( ${#_element} )) && ! (( ${#_index} )) && ! (( ${#_regexp} )) && {
         __usage__ 'please define "--element" or "--index" or "--regexp" parameter'
         return 1
     }
 
-    (("${#_target_reference_name}")) || {
+    (( ${#_target_reference_name} )) || {
         __usage__ 'please define "--target" parameter'
         return 1
     }
@@ -151,12 +151,12 @@ EOF
 
     ##
     # Set index variable if undefined
-    (("${#_index}")) || {
+    (( ${#_index} )) || {
         for i in "${!_target_reference[@]}"; do
             {
-                (("${#_element}")) && [[ "${_target_reference[${i}]}" == "${_element}" ]]
+                (( ${#_element} )) && [[ "${_target_reference[${i}]}" == "${_element}" ]]
             } || {
-                (("${#_regexp}")) && [[ "${_target_reference[${i}]}" =~ ${_regexp} ]]
+                (( ${#_regexp} )) && [[ "${_target_reference[${i}]}" =~ ${_regexp} ]]
             } && {
                 if [[ "${_offset}" == 0 ]]; then
                     local _index="${i}"
@@ -178,7 +178,7 @@ EOF
 
     ##
     # Set slice variables
-    if (("${#_index}")); then
+    if (( ${#_index} )); then
         local _head_slice_start="0"
         local _tail_slice_end="$((${#_target_reference[@]} - 1))"
         if [[ "${_offset}" == 0 ]]; then
@@ -210,13 +210,13 @@ EOF
     # Print parsed options and variables
     ((_verbose)) && {
         printf >&2 '## Parameter variables\n'
-        (("${#_element}")) && {
+        (( ${#_element} )) && {
             printf >&2 '   _element -> %s\n' "${_element}"
         }
-        (("${#_index}")) && {
+        (( ${#_index} )) && {
             printf >&2 '   _index -> %i\n' "${_index}"
         }
-        (("${#_regexp}")) && {
+        (( ${#_regexp} )) && {
             printf >&2 '   _regexp -> %s\n' "${_regexp}"
         }
         printf >&2 '   _offset -> %i\n' "${_offset}"
@@ -233,7 +233,7 @@ EOF
         printf >&2 '## Array references before\n'
         # shellcheck disable=SC2016
         printf >&2 '   ${%s[*]} -> %s\n' "${_target_reference_name}" "${_target_reference[*]}"
-        (("${#_deleted_reference_name}")) && {
+        (( ${#_deleted_reference_name} )) && {
             # shellcheck disable=SC2016
             printf >&2 '   ${%s[*]} -> %s\n' "${_deleted_reference_name}" "${_deleted_reference[*]}"
         }
@@ -242,8 +242,8 @@ EOF
 
     ##
     # Append to removed reference array and re-build target reference array
-    if (("${#_deleted_slice_start}")) && (("${#_deleted_slice_end}")); then
-        (("${#_deleted_reference_name}")) && {
+    if (( ${#_deleted_slice_start} )) && (( ${#_deleted_slice_end} )); then
+        (( ${#_deleted_reference_name} )) && {
             _deleted_reference+=( "${_target_reference[@]:${_deleted_slice_start}:${_deleted_slice_end}}" )
         }
         _target_reference=( "${_target_reference[@]:${_head_slice_start}:${_head_slice_end}}" "${_target_reference[@]:${_tail_slice_start}:${_tail_slice_end}}" )
@@ -256,7 +256,7 @@ EOF
         printf >&2 '## Array references after\n'
         # shellcheck disable=SC2016
         printf >&2 '   ${%s[*]} -> %s\n' "${_target_reference_name}" "${_target_reference[*]}"
-        (("${#_deleted_reference_name}")) && {
+        (( ${#_deleted_reference_name} )) && {
             # shellcheck disable=SC2016
             printf >&2 '   ${%s[*]} -> %s\n' "${_deleted_reference_name}" "${_deleted_reference[*]}"
         }
