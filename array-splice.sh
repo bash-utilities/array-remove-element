@@ -180,7 +180,7 @@ EOF
     # Set slice variables
     if (("${#_index}")); then
         local _head_slice_start="0"
-        local _tail_slice_end="$(("${#_target_reference[@]}" - 1))"
+        local _tail_slice_end="$((${#_target_reference[@]} - 1))"
         if [[ "${_offset}" == 0 ]]; then
             local _deleted_slice_start="${_index}"
             local _deleted_slice_end="$((_offset + 1))"
