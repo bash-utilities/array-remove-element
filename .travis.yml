@@ -21,11 +21,10 @@ matrix:
 
 branches:
   only:
-    - master
+    - main
     ## Allow building of 'test-' previxed branches
     - /^(?i:test)-.*$/
   except:
-    - gh-pages
     - example
 
 
