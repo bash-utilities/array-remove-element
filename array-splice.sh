@@ -205,6 +205,7 @@ EOF
             return 1
         fi
     else
+        __usage__ '_index undefined'
         return 1
     fi
 
