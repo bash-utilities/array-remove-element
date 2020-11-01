@@ -134,31 +134,33 @@ EOF
 
     ##
     # Detect premature exit states
-    ((_help)) && {
+    if (( _help )); then
         __usage__
         return 0
-    }
+    fi
 
-    ! (( ${#_element} )) && ! (( ${#_index} )) && ! (( ${#_regexp} )) && {
+    if ! (( ${#_element} )) && ! (( ${#_index} )) && ! (( ${#_regexp} )); then
         __usage__ 'please define "--element" or "--index" or "--regexp" parameter'
         return 1
-    }
+    fi
 
-    (( ${#_target_reference_name} )) || {
+    if ! (( ${#_target_reference_name} )); then
         __usage__ 'please define "--target" parameter'
         return 1
-    }
+    fi
 
 
     ##
     # Set index variable if undefined
-    (( ${#_index} )) || {
+    if ! (( ${#_index} )); then
         for i in "${!_target_reference[@]}"; do
-            {
-                (( ${#_element} )) && [[ "${_target_reference[${i}]}" == "${_element}" ]]
-            } || {
-                (( ${#_regexp} )) && [[ "${_target_reference[${i}]}" =~ ${_regexp} ]]
-            } && {
+            if
+                {
+                    (( ${#_element} )) && [[ "${_target_reference[${i}]}" == "${_element}" ]]
+                } || {
+                    (( ${#_regexp} )) && [[ "${_target_reference[${i}]}" =~ ${_regexp} ]]
+                }
+            then
                 if [[ "${_offset}" == 0 ]]; then
                     local _index="${i}"
                     break
@@ -172,9 +174,9 @@ EOF
                     __usage__ 'parameter "--offset" must numerical'
                     return 1
                 fi
-            }
+            fi
         done
-    }
+    fi
 
 
     ##
@@ -202,24 +204,23 @@ EOF
             return 1
         fi
     else
-        __usage__ '_index undefined'
         return 1
     fi
 
 
     ##
     # Print parsed options and variables
-    ((_verbose)) && {
+    if (( _verbose )); then
         printf >&2 '## Parameter variables\n'
-        (( ${#_element} )) && {
+        if (( ${#_element} )); then
             printf >&2 '   _element -> %s\n' "${_element}"
-        }
-        (( ${#_index} )) && {
+        fi
+        if (( ${#_index} )); then
             printf >&2 '   _index -> %i\n' "${_index}"
-        }
-        (( ${#_regexp} )) && {
+        fi
+        if (( ${#_regexp} )); then
             printf >&2 '   _regexp -> %s\n' "${_regexp}"
-        }
+        fi
         printf >&2 '   _offset -> %i\n' "${_offset}"
         printf >&2 '   _verbose -> %i\n' "${_verbose}"
 
@@ -234,33 +235,33 @@ EOF
         printf >&2 '## Array references before\n'
         # shellcheck disable=SC2016
         printf >&2 '   ${%s[*]} -> %s\n' "${_target_reference_name}" "${_target_reference[*]}"
-        (( ${#_deleted_reference_name} )) && {
+        if (( ${#_deleted_reference_name} )); then
             # shellcheck disable=SC2016
             printf >&2 '   ${%s[*]} -> %s\n' "${_deleted_reference_name}" "${_deleted_reference[*]}"
-        }
-    }
+        fi
+    fi
 
 
     ##
     # Append to removed reference array and re-build target reference array
     if (( ${#_deleted_slice_start} )) && (( ${#_deleted_slice_end} )); then
-        (( ${#_deleted_reference_name} )) && {
+        if (( ${#_deleted_reference_name} )); then
             _deleted_reference+=( "${_target_reference[@]:${_deleted_slice_start}:${_deleted_slice_end}}" )
-        }
+        fi
         _target_reference=( "${_target_reference[@]:${_head_slice_start}:${_head_slice_end}}" "${_target_reference[@]:${_tail_slice_start}:${_tail_slice_end}}" )
     fi
 
 
     ##
     # Print resulting changes to array references
-    ((_verbose)) && {
+    if (( _verbose )); then
         printf >&2 '## Array references after\n'
         # shellcheck disable=SC2016
         printf >&2 '   ${%s[*]} -> %s\n' "${_target_reference_name}" "${_target_reference[*]}"
-        (( ${#_deleted_reference_name} )) && {
+        if (( ${#_deleted_reference_name} )); then
             # shellcheck disable=SC2016
             printf >&2 '   ${%s[*]} -> %s\n' "${_deleted_reference_name}" "${_deleted_reference[*]}"
-        }
-    }
+        fi
+    fi
 }
 
