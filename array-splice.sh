@@ -91,8 +91,9 @@ EOF
 
     ##
     # Parse parameters
-    local -a _arguments=("${@}")
+    local -a _arguments=( "${@}" )
     local _offset=0
+    local i
     for i in "${!_arguments[@]}"; do
         case "${_arguments[${i}]}" in
             --target|-t)
