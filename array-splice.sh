@@ -8,7 +8,7 @@
 #   target=( 'one' 'two' 'three' )
 #   removed=()
 #
-#   array_splice -t target -r removed
+#   array_splice -t target -d removed
 #
 #   echo "target -> ( ${target[@]} )"
 #   #> target -> ( one three )
