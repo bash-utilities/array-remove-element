@@ -18,12 +18,8 @@
 # @author S0AndS0
 # @license AGPL-3.0
 array_splice() {
-    ##
-    # Internally scope usage function avoids clobbering script scoped usage
-    __usage__() {
-        local _message="${1}"
-
-        cat <<EOF
+    local __usage__
+    read -r -d '' __usage__ <<EOF
 Removes element from array plus/minus offset
 
 
@@ -83,10 +79,24 @@ Removes element from array plus/minus offset
     #> removed -> ( two )
 EOF
 
-        if (( ${#_message} )); then
-            printf >&2 '\n\n## Error: %s\n' "${_message}"
-        fi
-    }
+
+    ##
+    # Initialize locally scoped variables
+    local _deleted_reference_name
+    local _element
+    local _help=0
+    local _index
+    local _offset=0
+    local _regexp
+    local _target_reference_name
+    local _verbose
+
+    local _head_slice_start
+    local _tail_slice_end
+    local _deleted_slice_start
+    local _deleted_slice_end
+    local _head_slice_end
+    local _tail_slice_start
 
 
     ##
@@ -140,12 +150,12 @@ EOF
     fi
 
     if ! (( ${#_element} )) && ! (( ${#_index} )) && ! (( ${#_regexp} )); then
-        __usage__ 'please define "--element" or "--index" or "--regexp" parameter'
+        printf >&2 'Error: %s -> please define "--element" or "--index" or "--regexp" parameter\n' "${FUNCNAME[0]}"
         return 1
     fi
 
     if ! (( ${#_target_reference_name} )); then
-        __usage__ 'please define "--target" parameter'
+        printf >&2 'Error: %s -> please define "--target" parameter\n' "${FUNCNAME[@]}"
         return 1
     fi
 
@@ -171,7 +181,7 @@ EOF
                     local _index="${i}"
                     break
                 else
-                    __usage__ 'parameter "--offset" must numerical'
+                    printf >&2 'Error: %s -> parameter "--offset" must numerical\n' "${FUNCNAME[0]}"
                     return 1
                 fi
             fi
@@ -200,10 +210,11 @@ EOF
             local _head_slice_end="$((_index + _offset))"
             local _tail_slice_start="$((_index + 1))"
         else
-            __usage__ 'parameter "--offset" must numerical'
+            printf >&2 'Error: %s -> parameter "--offset" must numerical\n' "${FUNCNAME[0]}"
             return 1
         fi
     else
+        printf >&2 'Error: %s -> parameter "--index" undefined or variable "_index" not parced' "${FUNCNAME[0]}"
         return 1
     fi
 
