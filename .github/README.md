@@ -206,7 +206,7 @@ printf '${list[*]} -> ( %s )\n' "${list[*]}"
 ---
 
 
-Alternatively this project maybe utilized interactively by sourcing within a `.bashrc`, or similar, configuration file, eg...
+Alternatively this project maybe utilized interactively by sourcing within a `.profile`, or similar, configuration file, eg...
 
 
 ```Bash
@@ -215,7 +215,7 @@ cd ~/git/hub/bash-utilities
 
 git clone git@github.com:bash-utilities/array-splice.git
 
-tee -a "${HOME}/.bashrc" 1>/dev/null <<'EOF'
+tee -a "${HOME}/.profile" 1>/dev/null <<'EOF'
 # Add array_splice to interactive shell
 source ~/git/hub/bash-utilities/array-splice
 EOF
@@ -245,12 +245,13 @@ Removes element from array plus/minus offset
 
 ## Parameters
 
--t    --target <ArrayReferance> 
+
+-t    --target <ArrayReferance>
 
     {Required} - Target array reference to remove element(s) from
 
 
--d    --deleted <ArrayReferance> 
+-d    --deleted <ArrayReferance>
 
     {Optional} - Array reference to append removed element(s) to
 
