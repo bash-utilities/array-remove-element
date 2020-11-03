@@ -145,7 +145,7 @@ EOF
     ##
     # Detect premature exit states
     if (( _help )); then
-        __usage__
+        printf '%s\n' "${__usage__}"
         return 0
     fi
 
