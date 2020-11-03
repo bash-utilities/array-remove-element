@@ -101,8 +101,7 @@ EOF
 
     ##
     # Parse parameters
-    local -a _arguments=( "${@}" )
-    local _offset=0
+    local -a _arguments=( "${@:?No arguments provided to ${FUNCNAME[0]}}" )
     local i
     for i in "${!_arguments[@]}"; do
         case "${_arguments[${i}]}" in
