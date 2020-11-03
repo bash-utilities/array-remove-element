@@ -106,30 +106,30 @@ EOF
     for i in "${!_arguments[@]}"; do
         case "${_arguments[${i}]}" in
             --target|-t)
-                (( i++ ))
+                (( i++ )) || true
                 local -n _target_reference="${_arguments[${i}]}"
                 local _target_reference_name="${_arguments[${i}]}"
             ;;
             --deleted|-d)
-                (( i++ ))
+                (( i++ )) || true
                 local -n _deleted_reference="${_arguments[${i}]}"
                 local _deleted_reference_name="${_arguments[${i}]}"
             ;;
             --offset|-o)
-                (( i++ ))
+                (( i++ )) || true
                 _offset="${_arguments[${i}]}"
             ;;
             --index|-i)
-                (( i++ ))
-                local _index="${_arguments[${i}]}"
+                (( i++ )) || true
+                _index="${_arguments[${i}]}"
             ;;
             --element|-e)
-                (( i++ ))
-                local _element="${_arguments[${i}]}"
+                (( i++ )) || true
+                _element="${_arguments[${i}]}"
             ;;
             --regexp|-r)
-                (( i++ ))
-                local _regexp="${_arguments[${i}]}"
+                (( i++ )) || true
+                _regexp="${_arguments[${i}]}"
             ;;
             --verbose|-v)
                 local _verbose=1
