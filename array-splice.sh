@@ -170,13 +170,7 @@ EOF
                     (( ${#_regexp} )) && [[ "${_target_reference[${i}]}" =~ ${_regexp} ]]
                 }
             then
-                if [[ "${_offset}" == 0 ]]; then
-                    _index="${i}"
-                    break
-                elif [[ "${_offset}" -gt 0 ]]; then
-                    _index="${i}"
-                    break
-                elif [[ "${_offset}" -lt 0 ]]; then
+                if [[ "${_offset}" == 0 ]] || [[ "${_offset}" -lt 0 ]] || [[ "${_offset}" -gt 0 ]]; then
                     _index="${i}"
                     break
                 else
