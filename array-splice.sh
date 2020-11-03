@@ -108,12 +108,12 @@ EOF
             --target|-t)
                 (( i++ )) || true
                 local -n _target_reference="${_arguments[${i}]}"
-                local _target_reference_name="${_arguments[${i}]}"
+                _target_reference_name="${_arguments[${i}]}"
             ;;
             --deleted|-d)
                 (( i++ )) || true
                 local -n _deleted_reference="${_arguments[${i}]}"
-                local _deleted_reference_name="${_arguments[${i}]}"
+                _deleted_reference_name="${_arguments[${i}]}"
             ;;
             --offset|-o)
                 (( i++ )) || true
@@ -132,10 +132,10 @@ EOF
                 _regexp="${_arguments[${i}]}"
             ;;
             --verbose|-v)
-                local _verbose=1
+                _verbose=1
             ;;
             --help|-h)
-                local _help=1
+                _help=1
             ;;
         esac
     done
@@ -171,13 +171,13 @@ EOF
                 }
             then
                 if [[ "${_offset}" == 0 ]]; then
-                    local _index="${i}"
+                    _index="${i}"
                     break
                 elif [[ "${_offset}" -gt 0 ]]; then
-                    local _index="${i}"
+                    _index="${i}"
                     break
                 elif [[ "${_offset}" -lt 0 ]]; then
-                    local _index="${i}"
+                    _index="${i}"
                     break
                 else
                     printf >&2 'Error: %s -> parameter "--offset" must numerical\n' "${FUNCNAME[0]}"
@@ -191,23 +191,23 @@ EOF
     ##
     # Set slice variables
     if (( ${#_index} )); then
-        local _head_slice_start="0"
-        local _tail_slice_end="$((${#_target_reference[@]} - 1))"
+        _head_slice_start="0"
+        _tail_slice_end="$((${#_target_reference[@]} - 1))"
         if [[ "${_offset}" == 0 ]]; then
-            local _deleted_slice_start="${_index}"
-            local _deleted_slice_end="$((_offset + 1))"
-            local _head_slice_end="${_index}"
-            local _tail_slice_start="$((_index + _offset + 1))"
+            _deleted_slice_start="${_index}"
+            _deleted_slice_end="$((_offset + 1))"
+            _head_slice_end="${_index}"
+            _tail_slice_start="$((_index + _offset + 1))"
         elif [[ "${_offset}" -gt 0 ]]; then
-            local _deleted_slice_start="${_index}"
-            local _deleted_slice_end="$((_offset + 1))"
-            local _head_slice_end="${_index}"
-            local _tail_slice_start="$((_index + _offset + 1))"
+            _deleted_slice_start="${_index}"
+            _deleted_slice_end="$((_offset + 1))"
+            _head_slice_end="${_index}"
+            _tail_slice_start="$((_index + _offset + 1))"
         elif [[ "${_offset}" -lt 0 ]]; then
-            local _deleted_slice_start="$((_index + _offset))"
-            local _deleted_slice_end="$((_offset * -1 + 1))"
-            local _head_slice_end="$((_index + _offset))"
-            local _tail_slice_start="$((_index + 1))"
+            _deleted_slice_start="$((_index + _offset))"
+            _deleted_slice_end="$((_offset * -1 + 1))"
+            _head_slice_end="$((_index + _offset))"
+            _tail_slice_start="$((_index + 1))"
         else
             printf >&2 'Error: %s -> parameter "--offset" must numerical\n' "${FUNCNAME[0]}"
             return 1
